@@ -1,7 +1,13 @@
 import React from 'react';
 import './FacebookUI.css'; // Create a corresponding CSS file for styling
 
-const FacebookUI = () => {
+const FacebookUI = (state) => {
+  const {contract}=state;
+  const handleLike=async()=>{
+    const transaction = await contract
+    await transaction.wait();
+    console.log("Transaction is done");
+  }
   return (
     <div className="facebook-ui">
       <div className="profile-sidebar">
@@ -30,7 +36,7 @@ const FacebookUI = () => {
             {/* Add more post content as needed */}
           </div>
           <div className="post-actions">
-            <button>Like</button>
+            <button onClick={handleLike}>Like</button>
             <button>Comment</button>
           </div>
         </div>

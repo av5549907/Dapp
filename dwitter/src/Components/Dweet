@@ -1,0 +1,76 @@
+import React, { useState, useEffect } from 'react';
+
+const Dweet = (state) => {
+  const [totalDweets, setTotalDweets] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [reportsList, setReportsList] = useState([]);
+  const [advertisementsList, setAdvertisementsList] = useState([]);
+  const {contract}=state;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const totalDweets = await contract.dwitter.methods.totalDweets();
+        const totalUsers = await contract.dwitter.methods.totalUsers();
+
+        setTotalDweets(totalDweets);
+        setTotalUsers(totalUsers);
+
+        const reportsList = await contract.dwitter.methods.getReportedDweets();
+        setReportsList(reportsList);
+
+        const advertisementsList = await contract.dwitter.methods.getAds();
+        setAdvertisementsList(advertisementsList);
+
+        // Additional rendering logic if needed
+      } catch (error) {
+        alert("Error! You are not a user of this Platform! Please Register to Continue");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const renderReports = () => {
+    // Implement the rendering logic for reportsList
+  };
+
+  const renderAdvertisements = () => {
+    // Implement the rendering logic for advertisementsList
+  };
+
+  const handleBan = async (dweetId) => {
+    await contract.dwitter.methods.takeAction(dweetId, true);
+  };
+
+  const handleFree = async (dweetId) => {
+    await contract.dwitter.methods.takeAction(dweetId, false);
+  };
+
+  const handleViewDweet = async (dweetId) => {
+    // Implement logic to view a dweet
+  };
+
+  const handleAcceptAd = async (adId) => {
+    await contract.dwitter.methods.advertisementApproval(adId, true);
+  };
+
+  const handleRejectAd = async (adId) => {
+    await contract.dwitter.methods.advertisementApproval(adId, false);
+  };
+
+  const handleViewAd = async (adId) => {
+    // Implement logic to view an advertisement
+  };
+  
+  return (
+    <div>
+      <p>Total Dweets: {totalDweets}</p>
+      <p>Total Users: {totalUsers}</p>
+
+      {/* Render other components or elements based on your application's needs */}
+    </div>
+  );
+};
+
+export default Dweet;
